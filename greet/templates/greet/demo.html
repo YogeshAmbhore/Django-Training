@@ -3,10 +3,71 @@
 {% block title %} Thank You {% endblock %}
 
 {% block content %}
-    <h2>Project manager Profile</h2>
-    <form action="{% url 'pmaccountdetails' %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Login" />
-    </form>
+<div class="form-control">
+    {% if status == 'Open' %}
+    <h2>Open Tickets</h2>
+    {% elif status == 'accepted' %}
+    <h2>Accepted Tickets</h2>
+    {% elif status == 'completed' %}
+    <h2>Completed Tickets</h2>
+    {% elif status == 'closed' %}
+    <h2>Closed Tickets</h2>
+    {% endif %}
+    <hr>
+    <div class="form-control">
+        <table class="table" style="border: 1px solid black;">
+            <thead class="thed-dark">
+                <tr>
+                    <th scope="col" width="350" style="border: 1px solid black ;">#</th>
+                    <th scope="col" width="350" style="border: 1px solid black ;">Title</th>
+                    {% if status != 'Open' %}
+                    <th scope="col" scope="col" width="350" style="border: 1px solid black ;">Update Ticket</th>
+                    {% else %}
+                    <th scope="col" width="350" style="border: 1px solid black ;">View and Accept</th>
+                    {% endif %}
+                    <th scope="col" width="350" style="border: 1px solid black ;">Status</th>
+                    <th scope="col" width="350" style="border: 1px solid black ;">Created By</th>
+                    <th scope="col" width="350" style="border: 1px solid black ;">Accepted By</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td style="border: 1px solid black;">{{ forloop.counter }}</td>
+                        <td style="border: 1px solid black;">{{ ticket.title }}</td>
+                        {% if ticket.status == 'Open' %}
+                        <td style="border: 1px solid black;"><a href="{% url 'updateticket' ticket.id %}">View & Accept</a></td>
+                        {% else %}
+                        <td style="border: 1px solid black;"><a href="{% url 'updateticket' ticket.id %}">Update</a></td>
+                        {% endif %}
+                        <td style="border: 1px solid black;">{{ ticket.status }}</td>
+                        <td style="border: 1px solid black;">{{ ticket.user }}</td>
+                        <td style="border: 1px solid black;">{{ ticket.accessed_by }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+   <hr>
+   <p>Back To Dashboard <a href="{% url 'pmdashboard' %}">Dashboard</a></p>
+   {% if status == 'Open' %}
+   <p>Click here to see <a href="{% url 'alltickets' 'accepted' %}">Accepted Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'completed' %}">Completed Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'closed' %}">Closed Tickets</a></p>
+   {% elif status == 'accepted' %}
+   <p>Click here to see <a href="{% url 'alltickets' 'Open' %}">Open Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'completed' %}">Completed Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'closed' %}">Closed Tickets</a></p>
+   {% elif status == 'completed' %}
+   <p>Click here to see <a href="{% url 'alltickets' 'Open' %}">Open Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'accepted' %}">Accepted Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'closed' %}">Closed Tickets</a></p>
+   {% else %}
+   <p>Click here to see <a href="{% url 'alltickets' 'Open' %}">Open Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'accepted' %}">Accepted Tickets</a></p>
+   <p>Click here to see <a href="{% url 'alltickets' 'completed' %}">Completed Tickets</a></p>
+   
+   
+   {% endif %}
+
+</div>
 {% endblock %}

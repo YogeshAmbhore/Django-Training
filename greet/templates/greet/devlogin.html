@@ -5,33 +5,78 @@
 {% block content %}
 
 {% if page == 'devsignup' %}
-<form method="POST" action="{% url 'devsignup' %}">
-    {% csrf_token %}
-<div class="form-control">
-    <h1>Register as Developer </h1>
-    {{form.as_p}}
-    {{ profile_file.as_p }}
+<div class="container mt-5 mb-3">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron">
+                <form method="POST" action="{% url 'devsignup' %}">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            <h1 style="text-align: center;">Developer Sign Up</h1>
+                        </div>
+                        <div class="card-body">
+                            {% for field in form %}
+                            <div class="form__field">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                <br>
 
-    <input type="submit" value="Register Developer" />
-    <p>Already have an account <a href="{% url 'devlogin' %}">Login</a></p>
-    <p>Back To Home <a href="{% url 'home' %}">Home</a></p>
+                                {% for error in field.errors %}
+                                <p style="color: red;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                            <div style="text-align:center">
+                                <input type="submit" class="btn btn-primary" value="Sign Up" />
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <p style="text-align: center;">Already have an account <a href="{% url 'devlogin' %}">Login</a></p>
+                            <p style="text-align: center;">Back To Home <a href="{% url 'indexview' %}">Home</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-</form>
 {% else %}
-<form action="{% url 'devlogin' %}" method="POST">
-    {% csrf_token %}
-<div class="form-control">
-    <h1>Login as Developer </h1>
-    <input type="text" name="username" placeholder="Enter Username"/>
-    <br>
-    <input type="password" name="password" placeholder="Enter password"/>
-    <br>
-    <input type="submit" value="Login" />
-
-    <p>Don't have an account <a href="{% url 'devsignup' %}">Sign Up</a></p>
-    <p>Back To Home <a href="{% url 'home' %}">Home</a></p>
+<div class="container mt-5 mb-3">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron">
+                <form action="{% url 'devlogin' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            <h1 style="text-align: center;">Developer Login</h1>
+                        </div>
+                        <div class="card-body">
+                            {% for field in form %}
+                            <div class="form__field">
+                                {{ field.label_tag }}
+                                {{ field }}
+                    
+                                {% for error in field.errors %}
+                                <p style="color: red;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                            <br>
+                            <div style="text-align:center">
+                            <input type="submit" class="btn btn-primary" value="Login" />
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <p style="text-align: center;">Don't have an account <a href="{% url 'devsignup' %}">Sign Up</a></p>
+                            <p style="text-align: center;">Back To Home <a href="{% url 'indexview' %}">Home</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-</form>
-
 {% endif %}
 {% endblock %}

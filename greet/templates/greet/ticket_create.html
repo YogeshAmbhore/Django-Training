@@ -1,0 +1,55 @@
+{% extends 'greet/base.html' %}
+
+{% block title %} Thank You {% endblock %}
+
+{% block content %}
+{% include 'greet/navbar.html' %}
+
+<div class="container mt-5 mb-3">
+    <div class="row align-items-center h-100">
+        <div class="col-8 mx-auto">
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header text-white bg-primary">
+
+                        {% if page == 'createtickets' %}
+                        <h2 style="text-align: center;">Ticket Creation Form</h2>
+                        {% elif page == 'updateticket' %}
+                        <h2 style="text-align: center;">Ticket Updation Form</h2>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="card-body">
+                        {% for field in form %}
+                        <div class="form__field">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            <br>
+
+                            {% for error in field.errors %}
+                            <p style="color: red;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+
+                        {% if page == 'createtickets' %}
+                        <div style="text-align:center">
+                            <input type="submit" class="btn btn-primary" value="Create Ticket" />
+                        </div>
+                        {% elif page == 'updateticket' %}
+                        <div style="text-align:center">
+                            <input type="submit" class="btn btn-primary" value="Update Ticket" />
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

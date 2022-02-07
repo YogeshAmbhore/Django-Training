@@ -1,14 +1,66 @@
 {% extends 'greet/base.html' %}
+{% load static %}
 
 {% block title %} Thank You {% endblock %}
 
 {% block content %}
-<div class="form-control">
-    <h2>Welcome to the manager dashboard</h2>
-    {% if request.user.is_authenticated %}
-    <li><a href="{% url 'ticketform' %}">Create Ticket</a></li>
-    <li><a href="{% url 'viewticket' %}">Ticket</a></li>
-    <li><a href="{% url 'pmlogout' %}">Logout</a></li>
-    {% endif %}
-</div>
+{% if request.user.is_authenticated %}
+{% include 'greet/navbar.html' %}
+
+<header class="masthead bg-primary text-white text-center" style="padding: 30px;">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+        <img class="masthead-avatar mb-5" src="{% static 'greet/avataaars.svg' %}" alt="..." style="width: 15rem;" />
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Welcome {{ request.user.pmprofile }}</h1>
+        <!-- Masthead Subheading-->
+        <p class="masthead-subheading font-weight-light mb-0">Manager</p>
+        <br>
+        <a href="{% url 'createtickets' %}" class="btn btn-light">Create Ticket</a>
+    </div>
+</header>
+
+<section class="page-section portfolio" id="portfolio" style="padding: 30px;">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Tickets</h2>
+
+        <div class="container mt-4 mb-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card p-4 mb-4">
+                        <h3 class="heading" style="text-align: center;">Opened Tickets</h3>
+                        <a href="{% url 'alltickets' 'Open' %}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-4 mb-4">
+                        <h3 class="heading" style="text-align: center;">Accepted Tickets</h3>
+                        <a href="{% url 'alltickets' 'accepted' %}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-4 mb-4">
+                        <h3 class="heading" style="text-align: center;">Completed Tickets</h3>
+                        <a href="{% url 'alltickets' 'completed' %}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-4 mb-4">
+                        <h3 class="heading" style="text-align: center;">Closed Tickets</h3>
+                        <a href="{% url 'alltickets' 'closed' %}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endif %}
+
 {% endblock %}

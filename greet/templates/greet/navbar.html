@@ -1,0 +1,118 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-light text-uppercase">
+  <div class="container">
+    {% if request.user.is_authenticated and request.user.is_manager %}
+    <a class="navbar-brand" href="{% url 'pmdashboard' %}">Dashboard</a>
+    {% elif request.user.is_authenticated and request.user.is_developer %}
+    <a class="navbar-brand" href="{% url 'devdashboard' %}">Dashboard</a>
+    {% endif %}
+    <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+  </button>
+  
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      {% if request.user.is_authenticated and request.user.is_manager %}
+      {% if page != 'dashboard' %}
+      <ul class="nav nav-tabs me-auto mb-2 mb-lg-0">
+        {% if status == 'Open' %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="true" href="{% url 'alltickets' 'Open' %}">Open</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" aria-current="true" href="{% url 'alltickets' 'Open' %}">Open</a>
+        </li>
+        {% endif %}
+        {% if status == 'accepted' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'alltickets' 'accepted' %}">Accepted</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'alltickets' 'accepted' %}">Accepted</a>
+        </li>
+        {% endif %}
+        {% if status == 'completed' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'alltickets' 'completed' %}">Completed</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'alltickets' 'completed' %}">Completed</a>
+        </li>
+        {% endif %}
+        {% if status == 'closed' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'alltickets' 'closed' %}">Closed</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'alltickets' 'closed' %}">Closed</a>
+        </li>
+        {% endif %}
+
+      </ul>
+      {% endif %}
+      <div class="d-flex">
+        <button type="button" class="btn me-3">
+          <span style="text-transform:uppercase">Welcome {{ request.user.pmprofile }}</span>
+        </button>
+          <a href="{% url 'pmlogout' %}" class="btn btn-primary">Logout</a>
+      </div>
+
+      {% elif request.user.is_authenticated and request.user.is_developer %}
+      {% if page != 'dashboard' %}
+      <ul class="nav nav-tabs me-auto mb-2 mb-lg-0">
+        {% if status == 'Open' %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="true" href="{% url 'dev-ticket' 'Open' %}">Open</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" aria-current="true" href="{% url 'dev-ticket' 'Open' %}">Open</a>
+        </li>
+        {% endif %}
+        {% if status == 'accepted' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'dev-ticket' 'accepted' %}">Accepted</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dev-ticket' 'accepted' %}">Accepted</a>
+        </li>
+        {% endif %}
+        {% if status == 'completed' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'dev-ticket' 'completed' %}">Completed</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dev-ticket' 'completed' %}">Completed</a>
+        </li>
+        {% endif %}
+        {% if status == 'closed' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'dev-ticket' 'closed' %}">Closed</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dev-ticket' 'closed' %}">Closed</a>
+        </li>
+        {% endif %}
+
+      </ul>
+      {% endif %}
+      
+      <div class="d-flex">
+        <button type="button" class="btn me-3">
+          <span style="text-transform:uppercase">Welcome {{ request.user.devprofile }}</span>
+        </button>
+          <a href="{% url 'devlogout' %}" class="btn btn-primary">Logout</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>

@@ -5,12 +5,12 @@
 {% block content %}
 {% include 'greet/navbar.html' %}
 <section class="masthead bg-white text-center" style="padding: 30px;">
-<div class="container mt-5 mb-3">
-    <div class="row align-items-center h-100">
-        <div class="col-14 mx-auto">
-            <div class="jumbotron">
-                
-                    
+
+    <div class="container mt-5 mb-3">
+        <div class="row align-items-center h-100">
+            <div class="col-14 mx-auto">
+                <div class="jumbotron">
+
                     <br>
 
                     {% if status == 'Open' %}
@@ -36,10 +36,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Title</th>
-                                    {% if status != 'Open' %}
-                                    <th>Update Ticket</th>
-                                    {% else %}
-                                    <th>View and Accept</th>
+                                    {% if status == 'Open' or status == 'accepted' %}
+                                    <th>Action</th>
                                     {% endif %}
                                     <th>Status</th>
                                     <th>Created By</th>
@@ -51,10 +49,9 @@
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ ticket.title }}</td>
-                                    {% if ticket.status == 'Open' %}
-                                    <td><a href="{% url 'updateticket' ticket.id %}">View & Accept</a></td>
-                                    {% else %}
-                                    <td><a href="{% url 'updateticket' ticket.id %}">Update</a></td>
+                                    {% if ticket.status == 'Open' or status == 'accepted' %}
+                                    <td><a
+                                            href="{% url 'dev_updateticket' ticket.id %}">View & Update</a></td>
                                     {% endif %}
                                     <td>{{ ticket.status }}</td>
                                     <td>{{ ticket.user }}</td>
@@ -64,11 +61,9 @@
                             </tbody>
                         </table>
                     </div>
-
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
-
 {% endblock %}

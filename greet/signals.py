@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from .models import PMProfile
+from django.contrib.auth.models import Group
+from .models import PMProfile, DevProfile
 from django.db.models.signals import post_save, post_delete
 
 
@@ -14,9 +15,19 @@ def deleteManager(sender, instance, **kwargs):
     user = instance.user
     user.delete()
 
+
+# def createDeveloper(sender, instance, created, **kwargs):
+#     if created:
+#         user = instance
+#         if user.is_developer:
+#             group = Group.objects.get(name='developer')
+#             user.groups.add(group)
+
 post_save.connect(createManager, sender = User)
 
 post_delete.connect(deleteManager, sender = PMProfile)
+
+# post_save.connect(createDeveloper, sender=User)
 
 # def managercreated(sender, instance, created, **kwargs):
 #     print('profile saved')

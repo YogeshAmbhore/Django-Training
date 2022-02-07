@@ -1,30 +1,34 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .views import *
+
 
 urlpatterns = [
-    path('', views.home, name="home"),
-    path('pmlogin', views.loginmanager, name='pmlogin'),
+    path('', views.IndexView.as_view(), name='indexview'),
+
+    path('createtickets', views.CreateTicketView.as_view(), name='createtickets'),
+    path('updateticket/<str:pk>', views.UpdateTicketView.as_view(), name='updateticket'),
+    path('alltickets/<slug:status>', views.AllTicketView.as_view(), name='alltickets'),
+
+    path('pmlogin', views.ManagerLoginView.as_view(), name='pmlogin'),
     path('pmlogout', views.logoutmanager, name='pmlogout'),
-    path('pmsignup', views.signupmanager, name='pmsignup'),
-    path('pmdashboard', views.pmdashboard, name='pmdashboard'),
-    path('ticketform', views.createTicket, name='ticketform'),
-    path('viewticket', views.viewTickets, name='viewticket'),
-    path('updatepm/<str:pk>', views.updatepm, name='updatepm'),
-    path('pm_open_tickets', views.pm_openTickets, name='pm_open_tickets'),
-    path('pm_accepted_tickets', views.pm_acceptedTickets, name='pm_accepted_tickets'),
-    path('pm_completed_tickets', views.pm_completedTickets, name='pm_completed_tickets'),
-    path('pm_closed_tickets', views.pm_closedTickets, name='pm_closed_tickets'),
-    # path('pm_get_tickets', views.pm_getTickets, name='pm_get_tickets'),
-    path('devlogin', views.logindeveloper, name='devlogin'),
-    path('opentickets', views.openTickets, name='opentickets'),
-    path('acceptedticket', views.acceptedTickets, name='acceptedticket'),
-    path('completedticket', views.completedTickets, name='completedticket'),
-    path('closedticket', views.closedTickets, name='closedticket'),
-    # path('getticket', views.getTickets, name='getticket'),
-    path('updatedev/<str:pk>', views.updatedev, name='updatedev'),
+  
+    path('pmsignup', views.RegisterManager.as_view(), name='pmsignup'),
+    path('pmdashboard', views.DashboardView.as_view(), name='pmdashboard'),
+
+
+    path('devdashboard', views.DevDashboardView.as_view(), name='devdashboard'),
+
+    path('devlogin', views.DeveloperLoginView.as_view(), name='devlogin'),
+
     path('devlogout', views.logoutdevloper, name='devlogout'),
-    path('devsignup', views.signupdeveloper, name='devsignup'),
-    path('devdashboard', views.devdashboard, name='devdashboard'),
+
+    path('devsignup', views.RegisterDeveloper.as_view(), name='devsignup'),
+
+    path('dev-ticket/<slug:status>', views.DevTicketView.as_view(), name='dev-ticket'),
+    path('dev_updateticket/<str:pk>', views.DevUpdateTicketView.as_view(), name='dev_updateticket'),
+
+
     
 ]
